@@ -5,7 +5,8 @@ using System.Text;
 
 namespace FinanceTracker.Application.Repository
 {
-    public interface IUserRepository 
+    public interface IUserRepository : IRepository<User>
     {
+        Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken = default);
     }
 }
