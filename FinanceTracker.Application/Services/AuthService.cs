@@ -3,9 +3,12 @@ using FinanceTracker.Application.DTOs.Responses;
 using FinanceTracker.Application.Interfaces.Infrastructure;
 using FinanceTracker.Application.Interfaces.Services;
 using FinanceTracker.Application.Repository;
+using FinanceTracker.Domain.Enums;
+using FinanceTracker.Domain.Models;
 using FinanceTracker.Shared.Exceptions;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace FinanceTracker.Application.Services
@@ -20,12 +23,16 @@ namespace FinanceTracker.Application.Services
         public Task<AuthResponse> RegisterAsync(RegisterRequest request)
         {
             if (!CheckEmail(request.Email))
-                throw new InvalidCredentialsException()
+                throw new InvalidCredentialsException();
+
+            var user = new User(request.Email, RoleType.User);
+            throw new NotImplementedException();
         }
 
         private bool CheckEmail(string email)
         {
-            return true;
+            var emailValidator = new EmailAddressAttribute();
+            return emailValidator.IsValid(email);
         }
     }
 }

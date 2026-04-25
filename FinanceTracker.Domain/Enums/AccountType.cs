@@ -4,7 +4,9 @@ using System.Text;
 
 namespace FinanceTracker.Domain.Enums
 {
-    internal class AccountType
+    public enum AccountType
     {
+        Cash,
+        CreditCard
     }
 }

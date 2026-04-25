@@ -4,7 +4,9 @@ using System.Text;
 
 namespace FinanceTracker.Application.Interfaces.Infrastructure
 {
-    internal interface IPasswordHasher
+    public interface IPasswordHasher
     {
+        string HashPassword(string password);
+        bool VerifyPassword(string password, string hash);
     }
 }

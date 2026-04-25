@@ -1,10 +1,11 @@
-﻿using System;
+﻿using FinanceTracker.Domain.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace FinanceTracker.Application.Repository
 {
-    internal interface IUserRepository
+    public interface IUserRepository 
     {
     }
 }

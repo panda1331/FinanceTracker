@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using FinanceTracker.Application.DTOs.Requests;
+using FinanceTracker.Application.DTOs.Responses;
 
 namespace FinanceTracker.Application.Interfaces.Services
 {
-    internal interface IAuthService
+    public interface IAuthService
     {
+        Task<AuthResponse> RegisterAsync(RegisterRequest request);
+        Task<AuthResponse> LoginAsync(LoginRequest request);
     }
 }

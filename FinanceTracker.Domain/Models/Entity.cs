@@ -4,7 +4,8 @@ using System.Text;
 
 namespace FinanceTracker.Domain.Models
 {
-    internal class Entity
+    public class Entity
     {
+        public Guid Id { get; private set; }
     }
 }

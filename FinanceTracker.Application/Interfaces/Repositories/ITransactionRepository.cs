@@ -4,7 +4,7 @@ using System.Text;
 
 namespace FinanceTracker.Application.Repository
 {
-    internal interface ITransactionRepository
+    public interface ITransactionRepository
     {
     }
 }

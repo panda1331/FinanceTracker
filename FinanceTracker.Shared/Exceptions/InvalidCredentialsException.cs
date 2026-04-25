@@ -4,7 +4,9 @@ using System.Text;
 
 namespace FinanceTracker.Shared.Exceptions
 {
-    internal class InvalidCredentialsException
+    public class InvalidCredentialsException : Exception
     {
+        public InvalidCredentialsException() { }
+        public InvalidCredentialsException(string message) : base(message) { }
     }
 }
