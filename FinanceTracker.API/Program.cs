@@ -72,4 +72,10 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<FinanceTracker.Infrastructure.Data.AppDbContext>();
+    dbContext.Database.EnsureCreated();
+}
+
 app.Run();
