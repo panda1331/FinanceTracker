@@ -15,18 +15,49 @@ namespace FinanceTracker.Application.Services
 {
     public class AuthService(IUserRepository userRepository, IPasswordHasher passwordHasher, ITokenGenerator tokenGenerator) : IAuthService
     {
-        public Task<AuthResponse> LoginAsync(LoginRequest request)
+        public async Task<AuthResponse> LoginAsync(LoginRequest request)
         {
-            throw new NotImplementedException();
+            var user = await userRepository.GetByEmailAsync(request.Email);
+            if (user == null)
+                throw new InvalidCredentialsException("Invalid email or password");
+
+            var isCorrectPassword = passwordHasher.VerifyPassword(request.Password, user.PasswordHash);
+
+            if (!isCorrectPassword)
+                throw new InvalidCredentialsException("Invalid email or password.");
+
+            var token = tokenGenerator.GenerateToken(user.Id, user.Email, user.Type);
+            return new AuthResponse
+            {
+                UserId = user.Id,
+                Email = user.Email,
+                Token = token,
+            };
         }
 
-        public Task<AuthResponse> RegisterAsync(RegisterRequest request)
+        public async Task<AuthResponse> RegisterAsync(RegisterRequest request)
         {
             if (!CheckEmail(request.Email))
-                throw new InvalidCredentialsException();
+                throw new InvalidCredentialsException("Invalid email format.");
 
+            var existingUser = await userRepository.GetByEmailAsync(request.Email);
+            if (existingUser != null)
+                throw new InvalidCredentialsException("User with this email already exists.");
+
+            var passwordHash = passwordHasher.HashPassword(request.Password);
             var user = new User(request.Email, RoleType.User);
-            throw new NotImplementedException();
+            user.SetPasswordHash(passwordHash);
+
+            await userRepository.AddAsync(user);
+            await userRepository.SaveChangesAsync();
+
+            var token = tokenGenerator.GenerateToken(user.Id, user.Email, user.Type);
+            return new AuthResponse
+            {
+                UserId = user.Id,
+                Email = user.Email,
+                Token = token
+            };
         }
 
         private bool CheckEmail(string email)
