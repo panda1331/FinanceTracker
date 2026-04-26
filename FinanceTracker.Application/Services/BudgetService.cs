@@ -67,6 +67,19 @@ namespace FinanceTracker.Application.Services
             };
         }
 
+        public async Task DeleteBudgetAsync(Guid userId, Guid budgetId)
+        {
+            var budget = await _budgetRepository.GetByIdAsync(budgetId);
+            if (budget == null)
+                throw new NotFoundException("No such budget");
+
+            if (budget.UserId != userId)
+                throw new ValidationException("You can only delete your own budgets");
+
+            _budgetRepository.Delete(budget);
+            await _budgetRepository.SaveChangesAsync();
+        }
+
         public async Task<List<BudgetResponse>> GetBudgetsByUserIdAsync(Guid userId)
         {
             var budgets = await _budgetRepository.GetByUserIdAsync(userId);
