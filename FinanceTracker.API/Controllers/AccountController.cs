@@ -35,5 +35,13 @@ namespace FinanceTracker.API.Controllers
             var response = await _accountService.GetAccountsByUserIdAsync(userId);
             return Ok(ApiResponse<List<AccountResponse>>.SuccessResponse(response));
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteAccount(Guid id)
+        {
+            var userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+            await _accountService.DeleteAccountAsync(userId, id);
+            return Ok(ApiResponse<string>.SuccessResponse("Account deleted"));
+        }
     }
 }

@@ -3,6 +3,7 @@ using FinanceTracker.Application.DTOs.Responses;
 using FinanceTracker.Application.Interfaces.Services;
 using FinanceTracker.Application.Repository;
 using FinanceTracker.Domain.Models;
+using FinanceTracker.Shared.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -30,6 +31,19 @@ namespace FinanceTracker.Application.Services
                 Type = account.Type,
                 Balance = account.Balance,
             };
+        }
+
+        public async Task DeleteAccountAsync(Guid userId, Guid accountId)
+        {
+            var account = await _repository.GetByIdAsync(accountId);
+            if (account == null)
+                throw new NotFoundException("No such account");
+
+            if (account.UserId != userId)
+                throw new ValidationException("You can only delete your own accounts");
+
+            _repository.Delete(account);
+            await _repository.SaveChangesAsync();
         }
 
         public async Task<List<AccountResponse>> GetAccountsByUserIdAsync(Guid userId)

@@ -10,5 +10,6 @@ namespace FinanceTracker.Application.Interfaces.Services
     {
         Task<AccountResponse> CreateAccountAsync(Guid userId, CreateAccountRequest request);
         Task<List<AccountResponse>> GetAccountsByUserIdAsync(Guid userId);
+        Task DeleteAccountAsync(Guid userId, Guid accountId);
     }
 }
