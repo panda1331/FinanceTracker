@@ -15,7 +15,7 @@ namespace FinanceTracker.Infrastructure.Repositories
         public async Task<List<Category>> GetByUserIdAsync(Guid userId, CancellationToken cancellationToken = default)
         {
             return await _context.Categories
-                .Where(c => c.UserId == userId || c.IsDefault)
+                .Where(c => c.UserId == null || c.UserId == userId)
                 .ToListAsync(cancellationToken);
         }
 

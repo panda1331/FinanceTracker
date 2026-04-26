@@ -12,6 +12,13 @@ namespace FinanceTracker.Infrastructure.Repositories
     {
         public TransactionRepository(AppDbContext context) : base(context) { }
 
+        public async Task<List<Transaction>> GetByUserIdAndPeriodAsync(Guid userId, int month, int year, CancellationToken cancellationToken = default)
+        {
+            return await _context.Transactions
+                .Where(t => t.UserId == userId && t.Date.Month == month && t.Date.Year == year)
+                .ToListAsync(cancellationToken);
+        }
+
         public async Task<List<Transaction>> GetByAccountIdAsync(Guid accountId, CancellationToken cancellationToken = default)
         {
             return await _context.Transactions

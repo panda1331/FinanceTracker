@@ -10,5 +10,6 @@ namespace FinanceTracker.Application.Repository
         Task<List<Transaction>> GetByUserIdAsync(Guid userId, CancellationToken cancellationToken = default);
         Task<List<Transaction>> GetByAccountIdAsync(Guid accountId, CancellationToken cancellationToken = default);
         Task<List<Transaction>> GetByCategoryAndPeriodAsync(Guid userId, Guid categoryId, int month, int year, CancellationToken cancellationToken = default);
+        Task<List<Transaction>> GetByUserIdAndPeriodAsync(Guid userId, int month, int year, CancellationToken cancellationToken = default);
     }
 }
