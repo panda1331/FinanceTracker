@@ -1,0 +1,14 @@
+﻿using FinanceTracker.Application.DTOs.Requests;
+using FinanceTracker.Application.DTOs.Responses;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace FinanceTracker.Application.Interfaces.Services
+{
+    public interface ICategoryService
+    {
+        Task<CategoryResponse> CreateCategoryAsync(Guid userId, CreateCategoryRequest request);
+        Task<List<CategoryResponse>> GetCategoriesByUserIdAsync(Guid userId);
+    }
+}

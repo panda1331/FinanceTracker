@@ -24,5 +24,14 @@ namespace FinanceTracker.Domain.Models
             Balance = 0m;
             CreatedAt = DateTime.UtcNow;
         }
+
+        public void AddToBalance(decimal amount)
+        {
+            Balance += amount;
+        }
+        public void SubtractFromBalance(decimal amount)
+        {
+            Balance -= amount;
+        }
     }
 }

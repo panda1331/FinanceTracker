@@ -42,7 +42,7 @@ namespace FinanceTracker.Infrastructure.Repositories
         {
             var entity = await _context.Set<T>().FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
             if (entity == null)
-                throw new NotFoundException(nameof(T));
+                throw new NotFoundException("No such entity");
             return entity;
         }
 

@@ -23,5 +23,10 @@ namespace FinanceTracker.Domain.Models
             Year = year;
             CreatedAt = DateTime.UtcNow;
         }
+
+        public void Update(decimal limit)
+        {
+            Limit = limit;
+        }
     }
 }
