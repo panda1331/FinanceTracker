@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace FinanceTracker.Application.Services
 {
@@ -24,7 +25,7 @@ namespace FinanceTracker.Application.Services
             var isCorrectPassword = passwordHasher.VerifyPassword(request.Password, user.PasswordHash);
 
             if (!isCorrectPassword)
-                throw new InvalidCredentialsException("Invalid email or password.");
+                throw new InvalidCredentialsException("Invalid email or password");
 
             var token = tokenGenerator.GenerateToken(user.Id, user.Email, user.Type);
             return new AuthResponse
@@ -38,11 +39,14 @@ namespace FinanceTracker.Application.Services
         public async Task<AuthResponse> RegisterAsync(RegisterRequest request)
         {
             if (!CheckEmail(request.Email))
-                throw new InvalidCredentialsException("Invalid email format.");
+                throw new InvalidCredentialsException("Invalid email format");
+
+            if (!CheckPassword(request.Password))
+                throw new InvalidCredentialsException("Invalid password format");
 
             var existingUser = await userRepository.GetByEmailAsync(request.Email);
             if (existingUser != null)
-                throw new InvalidCredentialsException("User with this email already exists.");
+                throw new InvalidCredentialsException("User with this email already exists");
 
             var passwordHash = passwordHasher.HashPassword(request.Password);
             var user = new User(request.Email, RoleType.User);
@@ -64,6 +68,11 @@ namespace FinanceTracker.Application.Services
         {
             var emailValidator = new EmailAddressAttribute();
             return emailValidator.IsValid(email);
+        }
+        private bool CheckPassword(string password)
+        {
+            var regex = new Regex(@"[a-zA-Z0-9\s]+");
+            return password.Length >= 3 && regex.IsMatch(password);
         }
     }
 }
