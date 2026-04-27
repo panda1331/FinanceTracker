@@ -3,6 +3,7 @@ using FinanceTracker.Application.DTOs.Responses;
 using FinanceTracker.Application.Interfaces.Services;
 using FinanceTracker.Application.Repository;
 using FinanceTracker.Domain.Models;
+using FinanceTracker.Shared.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -30,6 +31,22 @@ namespace FinanceTracker.Application.Services
                 Type = category.Type,
                 IsDefault = category.IsDefault,
             };
+        }
+
+        public async Task DeleteCategoryAsync(Guid userId, Guid categoryId)
+        {
+            var category = await _repository.GetByIdAsync(categoryId);
+            if (category == null)
+                throw new NotFoundException("No such category");
+
+            if (category.IsDefault)
+                throw new ValidationException("Cannot delete default category");
+
+            if (category.UserId != userId)
+                throw new ValidationException("You can only delete wour own categories");
+
+            _repository.Delete(category);
+            await _repository.SaveChangesAsync();
         }
 
         public async Task<List<CategoryResponse>> GetCategoriesByUserIdAsync(Guid userId)

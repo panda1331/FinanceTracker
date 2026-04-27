@@ -21,6 +21,12 @@ namespace FinanceTracker.Infrastructure.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<User>().HasKey(u => u.Id);
+            modelBuilder.Entity<Account>().HasKey(a => a.Id);
+            modelBuilder.Entity<Category>().HasKey(c => c.Id);
+            modelBuilder.Entity<Transaction>().HasKey(t => t.Id);
+            modelBuilder.Entity<Budget>().HasKey(b => b.Id);
         }
     }
 }

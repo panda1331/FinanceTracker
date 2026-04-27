@@ -35,5 +35,13 @@ namespace FinanceTracker.API.Controllers
             var response = await _categoryService.GetCategoriesByUserIdAsync(userId);
             return Ok(ApiResponse<List<CategoryResponse>>.SuccessResponse(response));
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteCategory(Guid id)
+        {
+            var userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+            await _categoryService.DeleteCategoryAsync(userId, id);
+            return Ok(ApiResponse<string>.SuccessResponse("Category deleted"));
+        }
     }
 }

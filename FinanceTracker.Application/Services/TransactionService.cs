@@ -68,6 +68,29 @@ namespace FinanceTracker.Application.Services
             };            
         }
 
+        public async Task DeleteTransactionAsync(Guid userId, Guid transactionId)
+        {
+            var transaction = await _transactionRepository.GetByIdAsync(transactionId);
+            if (transaction == null)
+                throw new NotFoundException("No such transaction");
+
+            if (transaction.UserId != userId)
+                throw new ValidationException("You can only delete your own transactions");
+
+            var account = await _accountRepository.GetByIdAsync(transaction.AccountId);
+            if (account == null)
+                throw new NotFoundException("Account not found");
+
+            if (transaction.Type == OperationType.Expense)
+                account.AddToBalance(transaction.Amount);
+            else
+                account.SubtractFromBalance(transaction.Amount);
+
+            _accountRepository.Update(account);
+            _transactionRepository.Delete(transaction);
+            await _transactionRepository.SaveChangesAsync();
+        }
+
         public async Task<List<TransactionResponse>> GetTransactionsByUserIdAsync(Guid userId)
         {
             var transactions = await _transactionRepository.GetByUserIdAsync(userId);

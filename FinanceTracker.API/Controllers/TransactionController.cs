@@ -35,5 +35,13 @@ namespace FinanceTracker.API.Controllers
             var response = await _transactionService.GetTransactionsByUserIdAsync(userId);
             return Ok(ApiResponse<List<TransactionResponse>>.SuccessResponse(response));
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteTransaction(Guid id)
+        {
+            var userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+            await _transactionService.DeleteTransactionAsync(userId, id);
+            return Ok(ApiResponse<string>.SuccessResponse("Transaction deleted"));
+        }
     }
 }
