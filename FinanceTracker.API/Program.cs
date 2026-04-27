@@ -35,6 +35,7 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddScoped<IBudgetService, BudgetService>();
 builder.Services.AddScoped<IAnalyticsService, AnalyticsService>();
+builder.Services.AddScoped<IAdminService,  AdminService>();
 
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen(options =>

@@ -52,24 +52,7 @@ namespace FinanceTracker.Application.Services
         public async Task<List<CategoryResponse>> GetCategoriesByUserIdAsync(Guid userId)
         {
             var categories = await _repository.GetByUserIdAsync(userId);
-            return MapCategoriesToResponses(categories);
-        }
-
-        private List<CategoryResponse> MapCategoriesToResponses(List<Category> categories)
-        {
-            var responses = new List<CategoryResponse>();
-            foreach(var category in categories)
-            {
-                var response = new CategoryResponse()
-                {
-                    Id = category.Id,
-                    Name = category.Name,
-                    Type = category.Type,
-                    IsDefault = category.IsDefault,
-                };
-                responses.Add(response);
-            }
-            return responses;
+            return Mapper.ToResponses(categories);
         }
     }
 }

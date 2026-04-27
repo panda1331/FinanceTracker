@@ -94,27 +94,7 @@ namespace FinanceTracker.Application.Services
         public async Task<List<TransactionResponse>> GetTransactionsByUserIdAsync(Guid userId)
         {
             var transactions = await _transactionRepository.GetByUserIdAsync(userId);
-            return MapTransactionsToResponses(transactions);
-        }
-
-        private List<TransactionResponse> MapTransactionsToResponses(List<Transaction> transactions)
-        {
-            var responses = new List<TransactionResponse>();
-            foreach(var  transaction in transactions)
-            {
-                var response = new TransactionResponse
-                {
-                    Id = transaction.Id,
-                    AccountId = transaction.AccountId,
-                    Amount = transaction.Amount,
-                    CategoryId = transaction.CategoryId,
-                    Date = transaction.Date,
-                    Description = transaction.Description,
-                    Type = transaction.Type,
-                };
-                responses.Add(response);
-            }
-            return responses;
+            return Mapper.ToResponses(transactions);
         }
     }
 }

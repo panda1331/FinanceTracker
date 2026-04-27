@@ -49,24 +49,8 @@ namespace FinanceTracker.Application.Services
         public async Task<List<AccountResponse>> GetAccountsByUserIdAsync(Guid userId)
         {
             var accounts = await _repository.GetByUserIdAsync(userId);
-            return MapAccountsToResponses(accounts);
+            return Mapper.ToResponses(accounts);
         }
 
-        private List<AccountResponse> MapAccountsToResponses(List<Account> accounts)
-        {
-            var responses = new List<AccountResponse>();
-            foreach (var account in accounts)
-            {
-                var response = new AccountResponse
-                {
-                    Id = account.Id,
-                    Name = account.Name,
-                    Type = account.Type,
-                    Balance = account.Balance,
-                };
-                responses.Add(response);
-            }
-            return responses;
-        }
     }
 }

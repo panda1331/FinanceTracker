@@ -40,7 +40,6 @@ namespace FinanceTracker.Infrastructure.Repositories
 
         public async Task<T?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            //------------------------ тут ошибка при  удалении транзакции пофиксить. потом дальше админку
             return await _context.Set<T>().FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
         }
 
