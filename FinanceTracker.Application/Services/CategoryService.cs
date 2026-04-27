@@ -54,5 +54,30 @@ namespace FinanceTracker.Application.Services
             var categories = await _repository.GetByUserIdAsync(userId);
             return Mapper.ToResponses(categories);
         }
+
+        public async Task<CategoryResponse> UpdateCategoryAsync(Guid userId, Guid categoryId, UpdateCategoryRequest request)
+        {
+            var category = await _repository.GetByIdAsync(categoryId);
+            if (category == null)
+                throw new NotFoundException("No such category");
+
+            if (category.IsDefault)
+                throw new ValidationException("Cannot update default category");
+
+            if (category.UserId != userId)
+                throw new ValidationException("You can only update your own categories");
+
+            category.UpdateName(request.Name);
+            _repository.Update(category);
+            await _repository.SaveChangesAsync();
+
+            return new CategoryResponse
+            {
+                Id = category.Id,
+                IsDefault = category.IsDefault,
+                Name = category.Name,
+                Type = category.Type,
+            };
+        }
     }
 }

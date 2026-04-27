@@ -20,12 +20,15 @@ namespace FinanceTracker.API.Controllers
             _analyticsService = analyticsService;
         }
 
+        /// <summary>Returns expense summary grouped by categories for the given month and year.</summary>
+        /// <param name="month">Month (1-12).</param>
+        /// <param name="year">Year.</param>
         [HttpGet]
         public async Task<IActionResult> GetAnalytics([FromQuery] int month, [FromQuery] int year)
         {
             var userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
             var response = await _analyticsService.GetAnalyticsAsync(userId, month, year);
             return Ok(ApiResponse<AnalyticsResponse>.SuccessResponse(response));
-        } 
+        }
     }
 }

@@ -20,6 +20,8 @@ namespace FinanceTracker.API.Controllers
             _categoryService = categoryService;
         }
 
+        /// <summary>Creates a new custom category.</summary>
+        /// <param name="request">Category name and type.</param>
         [HttpPost]
         public async Task<IActionResult> CreateCategory(CreateCategoryRequest request)
         {
@@ -28,6 +30,7 @@ namespace FinanceTracker.API.Controllers
             return Ok(ApiResponse<CategoryResponse>.SuccessResponse(response));
         }
 
+        /// <summary>Returns all categories (default + user's own).</summary>
         [HttpGet]
         public async Task<IActionResult> GetCategories()
         {
@@ -36,12 +39,25 @@ namespace FinanceTracker.API.Controllers
             return Ok(ApiResponse<List<CategoryResponse>>.SuccessResponse(response));
         }
 
+        /// <summary>Deletes a custom category by ID (default categories cannot be deleted).</summary>
+        /// <param name="id">Category ID.</param>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCategory(Guid id)
         {
             var userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
             await _categoryService.DeleteCategoryAsync(userId, id);
             return Ok(ApiResponse<string>.SuccessResponse("Category deleted"));
+        }
+
+        /// <summary>Updates a custom category name (default categories cannot be updated).</summary>
+        /// <param name="id">Category ID.</param>
+        /// <param name="request">New category name.</param>
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateVategory(Guid id, [FromBody] UpdateCategoryRequest request)
+        {
+            var userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+            var response = await _categoryService.UpdateCategoryAsync(userId, id, request);
+            return Ok(ApiResponse<CategoryResponse>.SuccessResponse(response));
         }
     }
 }

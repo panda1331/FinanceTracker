@@ -96,5 +96,29 @@ namespace FinanceTracker.Application.Services
             var transactions = await _transactionRepository.GetByUserIdAsync(userId);
             return Mapper.ToResponses(transactions);
         }
+
+        public async Task<TransactionResponse> UpdateTransactionAsync(Guid userId, Guid transactionId, UpdateTransactionRequest request)
+        {
+            var transaction = await _transactionRepository.GetByIdAsync(transactionId);
+            if (transaction == null)
+                throw new NotFoundException("No such transaction");
+
+            if (transaction.UserId != userId)
+                throw new ValidationException("You can only update your own transactions");
+
+            transaction.UpdateDescription(request.Description);
+            _transactionRepository.Update(transaction);
+            await _transactionRepository.SaveChangesAsync();
+            return new TransactionResponse
+            {
+                Id = transaction.Id,
+                AccountId = transaction.AccountId,
+                Date = transaction.Date,
+                Description = transaction.Description,
+                Amount = transaction.Amount,
+                CategoryId = transaction.CategoryId,
+                Type = transaction.Type,
+            };
+        }
     }
 }

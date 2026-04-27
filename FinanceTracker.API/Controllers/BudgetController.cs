@@ -21,6 +21,8 @@ namespace FinanceTracker.API.Controllers
             _budgetService = budgetService;
         }
 
+        /// <summary>Creates a new budget or updates an existing one for a category in a given month.</summary>
+        /// <param name="request">Category ID, limit, month, year.</param>
         [HttpPost]
         public async Task<IActionResult> CreateOrUpdateBudget(CreateBudgetRequest request)
         {
@@ -29,6 +31,7 @@ namespace FinanceTracker.API.Controllers
             return Ok(ApiResponse<BudgetResponse>.SuccessResponse(response));
         }
 
+        /// <summary>Returns all budgets of the current user with exceeded status.</summary>
         [HttpGet]
         public async Task<IActionResult> GetBudgets()
         {
@@ -37,6 +40,8 @@ namespace FinanceTracker.API.Controllers
             return Ok(ApiResponse<List<BudgetResponse>>.SuccessResponse(response));
         }
 
+        /// <summary>Deletes a budget by ID.</summary>
+        /// <param name="id">Budget ID.</param>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteBudget(Guid id)
         {

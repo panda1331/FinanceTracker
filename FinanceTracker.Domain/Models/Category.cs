@@ -23,5 +23,11 @@ namespace FinanceTracker.Domain.Models
             Type = type;
             IsDefault = isDefault;
         }
+
+        public void UpdateName(string name)
+        {
+            if (!string.IsNullOrEmpty(name)) 
+                Name = name;
+        }
     }
 }

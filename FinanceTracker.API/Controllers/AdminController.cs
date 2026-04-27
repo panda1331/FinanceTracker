@@ -20,6 +20,7 @@ namespace FinanceTracker.API.Controllers
             _adminService = adminService;
         }
 
+        /// <summary>Returns all registered users.</summary>
         [HttpGet("users")]
         public async Task<IActionResult> GetUsers()
         {
@@ -27,6 +28,8 @@ namespace FinanceTracker.API.Controllers
             return Ok(ApiResponse<List<UserResponse>>.SuccessResponse(users));
         }
 
+        /// <summary>Returns all accounts or filtered by user ID.</summary>
+        /// <param name="userId">Optional user ID.</param>
         [HttpGet("accounts")]
         public async Task<IActionResult> GetAccounts([FromQuery] Guid? userId)
         {
@@ -36,6 +39,8 @@ namespace FinanceTracker.API.Controllers
                 return Ok(ApiResponse<List<AccountResponse>>.SuccessResponse(await _adminService.GetUserAccountsAsync(userId.Value)));
         }
 
+        /// <summary>Returns all budgets or filtered by user ID.</summary>
+        /// <param name="userId">Optional user ID.</param>
         [HttpGet("budgets")]
         public async Task<IActionResult> GetBudgets([FromQuery] Guid? userId)
         {
@@ -45,6 +50,8 @@ namespace FinanceTracker.API.Controllers
                 return Ok(ApiResponse<List<BudgetResponse>>.SuccessResponse(await _adminService.GetUserBudgetsAsync(userId.Value)));
         }
 
+        /// <summary>Returns all categories or filtered by user ID.</summary>
+        /// <param name="userId">Optional user ID.</param>
         [HttpGet("categories")]
         public async Task<IActionResult> GetCategories([FromQuery] Guid? userId)
         {
@@ -54,6 +61,8 @@ namespace FinanceTracker.API.Controllers
                 return Ok(ApiResponse<List<CategoryResponse>>.SuccessResponse(await _adminService.GetUserCategoriesAsync(userId.Value)));
         }
 
+        /// <summary>Returns all transactions or filtered by user ID.</summary>
+        /// <param name="userId">Optional user ID.</param>
         [HttpGet("transactions")]
         public async Task<IActionResult> GetTransactions([FromQuery] Guid? userId)
         {
@@ -63,6 +72,8 @@ namespace FinanceTracker.API.Controllers
                 return Ok(ApiResponse<List<TransactionResponse>>.SuccessResponse(await _adminService.GetUserTransactionsAsync(userId.Value)));
         }
 
+        /// <summary>Deletes any account by ID.</summary>
+        /// <param name="id">Account ID.</param>
         [HttpDelete("accounts/{id}")]
         public async Task<IActionResult> DeleteAccount(Guid id)
         {
@@ -70,6 +81,8 @@ namespace FinanceTracker.API.Controllers
             return Ok(ApiResponse<string>.SuccessResponse("Account deleted"));
         }
 
+        /// <summary>Deletes any budget by ID.</summary>
+        /// <param name="id">Budget ID.</param>
         [HttpDelete("budgets/{id}")]
         public async Task<IActionResult> DeleteBudget(Guid id)
         {
@@ -77,6 +90,8 @@ namespace FinanceTracker.API.Controllers
             return Ok(ApiResponse<string>.SuccessResponse("Budget deleted"));
         }
 
+        /// <summary>Deletes any category by ID.</summary>
+        /// <param name="id">Category ID.</param>
         [HttpDelete("categories/{id}")]
         public async Task<IActionResult> DeleteCategory(Guid id)
         {
@@ -84,6 +99,8 @@ namespace FinanceTracker.API.Controllers
             return Ok(ApiResponse<string>.SuccessResponse("Category deleted"));
         }
 
+        /// <summary>Deletes any transaction by ID.</summary>
+        /// <param name="id">Transaction ID.</param>
         [HttpDelete("transactions/{id}")]
         public async Task<IActionResult> DeleteTransaction(Guid id)
         {

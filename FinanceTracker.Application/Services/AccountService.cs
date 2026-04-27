@@ -52,5 +52,25 @@ namespace FinanceTracker.Application.Services
             return Mapper.ToResponses(accounts);
         }
 
+        public async Task<AccountResponse> UpdateAccountAsync(Guid userId, Guid accountId, UpdateAccountRequest request)
+        {
+            var account = await _repository.GetByIdAsync(accountId);
+            if (account == null)
+                throw new NotFoundException("No such account");
+
+            if (account.UserId != userId)
+                throw new ValidationException("You can only update your own accounts");
+
+            account.UpdateName(request.Name);
+            _repository.Update(account);
+            await _repository.SaveChangesAsync();
+            return new AccountResponse
+            {
+                Id = account.Id,
+                Name = account.Name,
+                Balance = account.Balance,
+                Type = account.Type,
+            };
+        }
     }
 }

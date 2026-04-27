@@ -33,5 +33,11 @@ namespace FinanceTracker.Domain.Models
         {
             Balance -= amount;
         }
+
+        public void UpdateName(string name)
+        {
+            if (!string.IsNullOrEmpty(name)) 
+                Name = name;
+        }
     }
 }

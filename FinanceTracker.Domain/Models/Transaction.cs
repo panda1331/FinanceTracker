@@ -32,7 +32,7 @@ namespace FinanceTracker.Domain.Models
             CreatedAt = DateTime.UtcNow;
         }
 
-        public void AddDescription(string description)
+        public void UpdateDescription(string description)
         {
             if (!string.IsNullOrEmpty(description))
                 Description = description;

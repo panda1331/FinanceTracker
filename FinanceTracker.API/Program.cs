@@ -4,8 +4,9 @@ using FinanceTracker.Infrastructure;
 using FinanceTracker.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using Microsoft.OpenApi.Models;
+using System.Reflection;
+using System.Text;
 
 
 
@@ -62,6 +63,9 @@ builder.Services.AddSwaggerGen(options =>
             new string[] { }
         }
     });
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    options.IncludeXmlComments(xmlPath);
 });
 
 var app = builder.Build();

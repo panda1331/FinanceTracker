@@ -17,6 +17,8 @@ namespace FinanceTracker.API.Controllers
             _authService = authService;
         }
 
+        /// <summary>Registers a new user and returns a JWT token.</summary>
+        /// <param name="request">Email and password.</param>
         [HttpPost("register")]
         public async Task<IActionResult> RegisterUser(RegisterRequest request)
         {
@@ -24,6 +26,8 @@ namespace FinanceTracker.API.Controllers
             return Ok(ApiResponse<AuthResponse>.SuccessResponse(response));
         }
 
+        /// <summary>Logs in an existing user and returns a JWT token.</summary>
+        /// <param name="request">Email and password.</param>
         [HttpPost("login")]
         public async Task<IActionResult> LoginUser(LoginRequest request)
         {

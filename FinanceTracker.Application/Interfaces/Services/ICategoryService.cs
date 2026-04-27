@@ -11,5 +11,6 @@ namespace FinanceTracker.Application.Interfaces.Services
         Task<CategoryResponse> CreateCategoryAsync(Guid userId, CreateCategoryRequest request);
         Task<List<CategoryResponse>> GetCategoriesByUserIdAsync(Guid userId);
         Task DeleteCategoryAsync(Guid userId, Guid categoryId);
+        Task<CategoryResponse> UpdateCategoryAsync(Guid userId, Guid categoryId, UpdateCategoryRequest request);
     }
 }

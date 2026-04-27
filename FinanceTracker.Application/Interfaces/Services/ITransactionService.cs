@@ -11,5 +11,6 @@ namespace FinanceTracker.Application.Interfaces.Services
         Task<TransactionResponse> CreateTransactionAsync(Guid userId, CreateTransactionRequest request);
         Task<List<TransactionResponse>> GetTransactionsByUserIdAsync(Guid userId);
         Task DeleteTransactionAsync(Guid userId, Guid transactionId);
+        Task<TransactionResponse> UpdateTransactionAsync(Guid userId, Guid transactionId, UpdateTransactionRequest request);
     }
 }
