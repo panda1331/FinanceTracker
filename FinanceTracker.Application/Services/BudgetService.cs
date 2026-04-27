@@ -89,10 +89,13 @@ namespace FinanceTracker.Application.Services
             {
                 var transactions = await _transactionRepository.GetByCategoryAndPeriodAsync(userId, budget.CategoryId, budget.Month, budget.Year);
                 var totalExpense = transactions.Sum(t => t.Amount);
+                var category = await _categoryRepository.GetByIdAsync(budget.CategoryId);
 
                 responses.Add(new BudgetResponse
                 {
                     Id = budget.Id,
+                    CategoryName = category?.Name ?? "unknown",
+                    CategoryId = budget.CategoryId,
                     Limit = budget.Limit,
                     Month = budget.Month,
                     Year = budget.Year,
